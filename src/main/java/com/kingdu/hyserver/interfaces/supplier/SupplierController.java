@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.supplier.dto.SupplierRequest;
 import com.kingdu.hyserver.application.supplier.dto.SupplierResponse;
 import com.kingdu.hyserver.application.supplier.SupplierApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class SupplierController {
     @PostMapping
     public SupplierResponse create(@RequestBody SupplierRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<SupplierRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

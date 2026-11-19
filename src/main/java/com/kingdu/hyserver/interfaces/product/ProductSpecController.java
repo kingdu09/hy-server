@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.product.dto.ProductSpecRequest;
 import com.kingdu.hyserver.application.product.dto.ProductSpecResponse;
 import com.kingdu.hyserver.application.product.ProductSpecApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class ProductSpecController {
     @PostMapping
     public ProductSpecResponse create(@RequestBody ProductSpecRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<ProductSpecRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

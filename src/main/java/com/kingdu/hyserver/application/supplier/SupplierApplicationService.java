@@ -5,6 +5,9 @@ import com.kingdu.hyserver.application.supplier.dto.SupplierResponse;
 import com.kingdu.hyserver.domain.supplier.Supplier;
 import com.kingdu.hyserver.domain.supplier.SupplierRepository;
 import org.springframework.stereotype.Service;
+import com.kingdu.hyserver.interfaces.common.ImportError;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,20 @@ public class SupplierApplicationService {
         Supplier entity = new Supplier();
         apply(entity, req);
         return SupplierResponse.from(repository.save(entity));
+    }
+
+    public ImportResult importAll(List<SupplierRequest> reqs) {
+        int success = 0;
+        List<ImportError> errors = new ArrayList<>();
+        for (int i = 0; i < reqs.size(); i++) {
+            try {
+                create(reqs.get(i));
+                success++;
+            } catch (Exception e) {
+                errors.add(new ImportError(i + 1, e.getMessage()));
+            }
+        }
+        return new ImportResult(reqs.size(), success, errors.size(), errors);
     }
 
     public List<SupplierResponse> findAll() {

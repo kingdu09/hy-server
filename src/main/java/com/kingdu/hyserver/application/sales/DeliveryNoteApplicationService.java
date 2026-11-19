@@ -5,6 +5,9 @@ import com.kingdu.hyserver.application.sales.dto.DeliveryNoteResponse;
 import com.kingdu.hyserver.domain.sales.DeliveryNote;
 import com.kingdu.hyserver.domain.sales.DeliveryNoteRepository;
 import org.springframework.stereotype.Service;
+import com.kingdu.hyserver.interfaces.common.ImportError;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,20 @@ public class DeliveryNoteApplicationService {
         DeliveryNote entity = new DeliveryNote();
         apply(entity, req);
         return DeliveryNoteResponse.from(repository.save(entity));
+    }
+
+    public ImportResult importAll(List<DeliveryNoteRequest> reqs) {
+        int success = 0;
+        List<ImportError> errors = new ArrayList<>();
+        for (int i = 0; i < reqs.size(); i++) {
+            try {
+                create(reqs.get(i));
+                success++;
+            } catch (Exception e) {
+                errors.add(new ImportError(i + 1, e.getMessage()));
+            }
+        }
+        return new ImportResult(reqs.size(), success, errors.size(), errors);
     }
 
     public List<DeliveryNoteResponse> findAll() {

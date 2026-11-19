@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.material.dto.RawMaterialRequest;
 import com.kingdu.hyserver.application.material.dto.RawMaterialResponse;
 import com.kingdu.hyserver.application.material.RawMaterialApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class RawMaterialController {
     @PostMapping
     public RawMaterialResponse create(@RequestBody RawMaterialRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<RawMaterialRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

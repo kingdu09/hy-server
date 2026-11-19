@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.sales.dto.DeliveryNoteRequest;
 import com.kingdu.hyserver.application.sales.dto.DeliveryNoteResponse;
 import com.kingdu.hyserver.application.sales.DeliveryNoteApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class DeliveryNoteController {
     @PostMapping
     public DeliveryNoteResponse create(@RequestBody DeliveryNoteRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<DeliveryNoteRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

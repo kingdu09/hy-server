@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.payroll.dto.PieceRateRequest;
 import com.kingdu.hyserver.application.payroll.dto.PieceRateResponse;
 import com.kingdu.hyserver.application.payroll.PieceRateApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class PieceRateController {
     @PostMapping
     public PieceRateResponse create(@RequestBody PieceRateRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<PieceRateRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

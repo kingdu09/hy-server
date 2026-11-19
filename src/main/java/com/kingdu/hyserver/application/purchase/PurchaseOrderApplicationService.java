@@ -5,6 +5,9 @@ import com.kingdu.hyserver.application.purchase.dto.PurchaseOrderResponse;
 import com.kingdu.hyserver.domain.purchase.PurchaseOrder;
 import com.kingdu.hyserver.domain.purchase.PurchaseOrderRepository;
 import org.springframework.stereotype.Service;
+import com.kingdu.hyserver.interfaces.common.ImportError;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,20 @@ public class PurchaseOrderApplicationService {
         PurchaseOrder entity = new PurchaseOrder();
         apply(entity, req);
         return PurchaseOrderResponse.from(repository.save(entity));
+    }
+
+    public ImportResult importAll(List<PurchaseOrderRequest> reqs) {
+        int success = 0;
+        List<ImportError> errors = new ArrayList<>();
+        for (int i = 0; i < reqs.size(); i++) {
+            try {
+                create(reqs.get(i));
+                success++;
+            } catch (Exception e) {
+                errors.add(new ImportError(i + 1, e.getMessage()));
+            }
+        }
+        return new ImportResult(reqs.size(), success, errors.size(), errors);
     }
 
     public List<PurchaseOrderResponse> findAll() {

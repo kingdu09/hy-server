@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.schedule.dto.ShiftScheduleRequest;
 import com.kingdu.hyserver.application.schedule.dto.ShiftScheduleResponse;
 import com.kingdu.hyserver.application.schedule.ShiftScheduleApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class ShiftScheduleController {
     @PostMapping
     public ShiftScheduleResponse create(@RequestBody ShiftScheduleRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<ShiftScheduleRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

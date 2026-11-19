@@ -5,6 +5,9 @@ import com.kingdu.hyserver.application.sales.dto.SalesOrderResponse;
 import com.kingdu.hyserver.domain.sales.SalesOrder;
 import com.kingdu.hyserver.domain.sales.SalesOrderRepository;
 import org.springframework.stereotype.Service;
+import com.kingdu.hyserver.interfaces.common.ImportError;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,20 @@ public class SalesOrderApplicationService {
         SalesOrder entity = new SalesOrder();
         apply(entity, req);
         return SalesOrderResponse.from(repository.save(entity));
+    }
+
+    public ImportResult importAll(List<SalesOrderRequest> reqs) {
+        int success = 0;
+        List<ImportError> errors = new ArrayList<>();
+        for (int i = 0; i < reqs.size(); i++) {
+            try {
+                create(reqs.get(i));
+                success++;
+            } catch (Exception e) {
+                errors.add(new ImportError(i + 1, e.getMessage()));
+            }
+        }
+        return new ImportResult(reqs.size(), success, errors.size(), errors);
     }
 
     public List<SalesOrderResponse> findAll() {

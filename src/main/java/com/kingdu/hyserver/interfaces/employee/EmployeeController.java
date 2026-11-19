@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.employee.dto.EmployeeRequest;
 import com.kingdu.hyserver.application.employee.dto.EmployeeResponse;
 import com.kingdu.hyserver.application.employee.EmployeeApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class EmployeeController {
     @PostMapping
     public EmployeeResponse create(@RequestBody EmployeeRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<EmployeeRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

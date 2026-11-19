@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.payroll.dto.PayrollRequest;
 import com.kingdu.hyserver.application.payroll.dto.PayrollResponse;
 import com.kingdu.hyserver.application.payroll.PayrollApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class PayrollController {
     @PostMapping
     public PayrollResponse create(@RequestBody PayrollRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<PayrollRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

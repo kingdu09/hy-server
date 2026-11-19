@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.purchase.dto.PurchaseOrderRequest;
 import com.kingdu.hyserver.application.purchase.dto.PurchaseOrderResponse;
 import com.kingdu.hyserver.application.purchase.PurchaseOrderApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class PurchaseOrderController {
     @PostMapping
     public PurchaseOrderResponse create(@RequestBody PurchaseOrderRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<PurchaseOrderRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

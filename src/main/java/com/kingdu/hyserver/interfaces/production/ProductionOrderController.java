@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.production.dto.ProductionOrderRequest;
 import com.kingdu.hyserver.application.production.dto.ProductionOrderResponse;
 import com.kingdu.hyserver.application.production.ProductionOrderApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class ProductionOrderController {
     @PostMapping
     public ProductionOrderResponse create(@RequestBody ProductionOrderRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<ProductionOrderRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

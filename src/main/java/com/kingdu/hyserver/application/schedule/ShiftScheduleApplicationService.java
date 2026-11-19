@@ -5,6 +5,9 @@ import com.kingdu.hyserver.application.schedule.dto.ShiftScheduleResponse;
 import com.kingdu.hyserver.domain.schedule.ShiftSchedule;
 import com.kingdu.hyserver.domain.schedule.ShiftScheduleRepository;
 import org.springframework.stereotype.Service;
+import com.kingdu.hyserver.interfaces.common.ImportError;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,20 @@ public class ShiftScheduleApplicationService {
         ShiftSchedule entity = new ShiftSchedule();
         apply(entity, req);
         return ShiftScheduleResponse.from(repository.save(entity));
+    }
+
+    public ImportResult importAll(List<ShiftScheduleRequest> reqs) {
+        int success = 0;
+        List<ImportError> errors = new ArrayList<>();
+        for (int i = 0; i < reqs.size(); i++) {
+            try {
+                create(reqs.get(i));
+                success++;
+            } catch (Exception e) {
+                errors.add(new ImportError(i + 1, e.getMessage()));
+            }
+        }
+        return new ImportResult(reqs.size(), success, errors.size(), errors);
     }
 
     public List<ShiftScheduleResponse> findAll() {

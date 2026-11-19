@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.customer.dto.CustomerRequest;
 import com.kingdu.hyserver.application.customer.dto.CustomerResponse;
 import com.kingdu.hyserver.application.customer.CustomerApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class CustomerController {
     @PostMapping
     public CustomerResponse create(@RequestBody CustomerRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<CustomerRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping

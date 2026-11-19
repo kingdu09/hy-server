@@ -4,6 +4,7 @@ import com.kingdu.hyserver.application.production.dto.WorkReportRequest;
 import com.kingdu.hyserver.application.production.dto.WorkReportResponse;
 import com.kingdu.hyserver.application.production.WorkReportApplicationService;
 import org.springframework.web.bind.annotation.*;
+import com.kingdu.hyserver.interfaces.common.ImportResult;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public class WorkReportController {
     @PostMapping
     public WorkReportResponse create(@RequestBody WorkReportRequest req) {
         return service.create(req);
+    }
+
+    @PostMapping("/import")
+    public ImportResult importAll(@RequestBody List<WorkReportRequest> reqs) {
+        return service.importAll(reqs);
     }
 
     @GetMapping
